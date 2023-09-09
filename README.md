@@ -1,3 +1,3 @@
-## Open API Workflows test
+## Open API Workflows Test
 
-A repository to test github workflows
+Just a test repository to generate a Open API client and publish it to NPM using github workflows
