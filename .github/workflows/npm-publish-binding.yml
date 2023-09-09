@@ -1,0 +1,47 @@
+name: PublishTypescriptClientToNPM
+
+on:
+  pull_request:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  generateTypescriptBinding:
+    name: Generate Typescript Binding
+    uses: yalochat/salesdesk-api/.github/workflows/gen-binding.yml@feature/generate-openapi
+    secrets: inherit
+  publishToNpm:
+    name: Publish Typescript Binding to NPM
+    needs: generateTypescriptBinding
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Typescript Binding from previous job
+        uses: actions/download-artifact@v3
+        with:
+          name: typescript-binding
+
+      # # Missiing configs
+      # - name: Initialize NPM Package
+      #   run: npm init -y
+
+      # # Missiing configs
+      # - name: Config Typescript
+      #   run: tsc --init
+
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16.x'
+      #     registry-url: 'https://registry.npmjs.org'
+      # - run: npm ci
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      
+
+      
+
+      
+
+      
