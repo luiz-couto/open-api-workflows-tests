@@ -1,0 +1,54 @@
+basePath: /superpath
+host: localhost:8080
+info:
+  contact: {}
+  title: My Awesome API
+  version: "1.0"
+definitions:
+  models.AnAwesomeModelRequest:
+    properties:
+      onefirstfield:
+        type: string
+      secondone:
+        type: string
+      name:
+        type: string
+      thirdfield:
+        type: string
+      awesomeuser:
+        type: string
+    required:
+    - onefirstfield
+    - secondone
+    - name
+    - thirdfield
+    - awesomeuser
+    type: object
+paths:
+  /an/awesome/path:
+    post:
+      description: An super description for a super API
+      operationId: myOperationId
+      parameters:
+      - description: My request body
+        in: body
+        name: AnAwesomeModelRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.AnAwesomeModelRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: The Body data has invalid fields
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      tags:
+      - Uhul
+swagger: "2.0"
