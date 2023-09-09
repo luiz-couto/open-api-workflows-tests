@@ -9,7 +9,7 @@ on:
 jobs:
   generateTypescriptBinding:
     name: Generate Typescript Binding
-    uses: yalochat/salesdesk-api/.github/workflows/gen-binding.yml@feature/generate-openapi
+    uses: luiz-couto/open-api-workflows-tests/.github/workflows/gen-binding.yml@feature/open-api-workflows
     secrets: inherit
   publishToNpm:
     name: Publish Typescript Binding to NPM
