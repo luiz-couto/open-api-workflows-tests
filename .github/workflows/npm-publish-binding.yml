@@ -21,9 +21,15 @@ jobs:
         with:
           name: typescript-binding
 
-      # # Missiing configs
-      # - name: Initialize NPM Package
-      #   run: npm init -y
+      # Missiing configs
+      - name: Initialize NPM Package
+        run: > 
+          npm init -y &&
+          npm pkg set
+          name=workflow-tests
+          version=1.2.0 
+          author=luizcouto
+          description='Typescript binding for workflow tests'
 
       # # Missiing configs
       # - name: Config Typescript
