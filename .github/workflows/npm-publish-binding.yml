@@ -31,18 +31,27 @@ jobs:
           description='Typescript binding for workflow tests'
           main='dist/index.js'
           types='dist/index.d.ts'
+      
+      - name: Install Axios
+        run: npm install axios
 
       - name: Config Typescript
-        run: tsc --init --declaration
+        run: tsc --init --declaration --lib es2015,dom
 
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '16.x'
-      #     registry-url: 'https://registry.npmjs.org'
-      # - run: npm ci
-      # - run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build files
+        run: tsc --outDir dist
+
+      - name: Update .npmignore
+        run: echo '/*' > .npmignore
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       
 
