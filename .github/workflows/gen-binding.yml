@@ -1,0 +1,25 @@
+name: GenerateDocsAndBindings
+
+on:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  buildDocs:
+    name: Build Swagger Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install OpenAPI Tools
+        run: npm install @openapitools/openapi-generator-cli -g
+
+      - name: Generate Typescript Client
+        run: make generateTypescriptClient
+
+      - name: Upload Typescript Client
+        uses: actions/upload-artifact@v3
+        with:
+          name: typescript-binding
+          path: clients/typescript

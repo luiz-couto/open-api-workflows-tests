@@ -1,0 +1,53 @@
+name: PublishTypescriptClientToNPM
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  generateTypescriptBinding:
+    name: Generate Typescript Binding
+    uses: luiz-couto/open-api-workflows-tests/.github/workflows/gen-binding.yml@main
+    secrets: inherit
+  publishToNpm:
+    name: Publish Typescript Binding to NPM
+    needs: generateTypescriptBinding
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Typescript Binding from previous job
+        uses: actions/download-artifact@v3
+        with:
+          name: typescript-binding
+
+      - name: Initialize NPM Package
+        run: > 
+          npm init -y &&
+          npm pkg set
+          name=workflow-tests
+          version=${{github.head_ref || github.ref_name}}
+          author=luizcouto
+          description='Typescript binding for workflow tests'
+          main='dist/index.js'
+          types='dist/index.d.ts'
+      
+      - name: Install Axios
+        run: npm install axios
+
+      - name: Config Typescript
+        run: tsc --init --declaration --lib es2015,dom
+
+      - name: Build files
+        run: tsc --outDir dist
+
+      - name: Update .npmignore
+        run: echo '/*' > .npmignore
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
