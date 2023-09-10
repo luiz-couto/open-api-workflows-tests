@@ -1,7 +1,6 @@
 name: PublishTypescriptClientToNPM
 
 on:
-  pull_request:
   push:
     tags:
       - v*.*.*
@@ -9,7 +8,7 @@ on:
 jobs:
   generateTypescriptBinding:
     name: Generate Typescript Binding
-    uses: luiz-couto/open-api-workflows-tests/.github/workflows/gen-binding.yml@feature/open-api-workflows
+    uses: luiz-couto/open-api-workflows-tests/.github/workflows/gen-binding.yml@main
     secrets: inherit
   publishToNpm:
     name: Publish Typescript Binding to NPM
@@ -26,7 +25,7 @@ jobs:
           npm init -y &&
           npm pkg set
           name=workflow-tests
-          version=1.3.0
+          version=${{github.head_ref || github.ref_name}}
           author=luizcouto
           description='Typescript binding for workflow tests'
           main='dist/index.js'
